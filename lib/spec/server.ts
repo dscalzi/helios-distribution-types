@@ -47,7 +47,7 @@ export interface Server {
          */
         shortId: string
         /**
-         * Ttooltip for the largeImageKey.
+         * Tooltip for the largeImageKey.
          */
         largeImageText: string
         /**
