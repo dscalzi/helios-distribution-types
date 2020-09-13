@@ -7,8 +7,9 @@ export interface Artifact {
 
     /**
      * The MD5 hash of the artifact. This will be used to validate local artifacts.
+     * Modules that do not provide an MD5 are untracked and not validated.
      */
-    MD5: string
+    MD5?: string
 
     /**
      * The artifact's download url.
