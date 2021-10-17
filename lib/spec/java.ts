@@ -66,21 +66,21 @@ export interface JavaVersionMatrix {
     /**
      * The absolute minimum version allowed for this major version.
      * Formatting must match that of the corresponding major version.
-     * If not provided, there will be no lower limit for this major version.
+     * If omitted, there will be no lower limit for this major version.
      * @since 1.1.0
      */
     minimum?: string
     /**
      * The absolute maximum version allowed for this major version.
      * Formatting must match that of the corresponding major version.
-     * If not provided, there will be no upper limit for this major version.
+     * If omitted, there will be no upper limit for this major version.
      * @since 1.1.0
      */
     maximum?: string
     /**
      * A list of blacklisted versions.
      * Formatting must match that of the corresponding major version.
-     * If not provided, no versions of this major version will be blacklisted.
+     * If omitted, no versions of this major version will be blacklisted.
      * @since 1.1.0
      */
     blacklist?: string[]
@@ -104,24 +104,24 @@ export interface JavaPlatformMatrix {
 
     /**
      * Preferred JDK distribution.
-     * If not provided, the client will decide (decision may be platform-specific).
+     * If omitted, the client will decide (decision may be platform-specific).
      * @since 1.1.0
      */
     distribution?: JdkDistribution
 
     /**
      * A list of supported major versions.
-     * If not provided, the client will decide based on the game version.
+     * If omitted, the client will decide based on the game version.
      * @since 1.1.0
      */
     supported?: number[]
 
     /**
      * A matrix used to provide validation rules by major version.
-     * If not provided, no rules will be applied.
+     * If omitted, no rules will be applied.
      * @since 1.1.0
      */
-    versionMatricies?: {
+    versionMatrices?: {
         /**
          * Validation rules for the specific major version.
          * If the list of supported major versions is provided, this major
