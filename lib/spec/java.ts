@@ -124,8 +124,11 @@ export interface JavaPlatformMatrix {
     versionMatricies?: {
         /**
          * Validation rules for the specific major version.
-         * The major version must be present in the array of supported
-         * major versions.
+         * If the list of supported major versions is provided, this major
+         * version must be present in that list.
+         * If not provided, this major version must be recognized as a supported
+         * version by the client.
+         * Otherwise, this value will be ignored.
          * @since 1.1.0
          */
         [major: string]: JavaVersionMatrix
@@ -136,7 +139,15 @@ export interface JavaPlatformMatrix {
      * @since 1.1.0
      */
     ram: {
+        /**
+         * The recommended amount of RAM.
+         * @since 1.1.0
+         */
         recommended: number
+        /**
+         * The absolute minimum amount of RAM.
+         * @since 1.1.0
+         */
         minimum: number
     }
 }
