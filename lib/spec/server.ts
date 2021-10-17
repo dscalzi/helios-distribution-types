@@ -1,3 +1,4 @@
+import { JavaOptions } from './java'
 import { Module } from './module'
 
 export interface Server {
@@ -37,6 +38,12 @@ export interface Server {
      * The version of minecraft that the server is running.
      */
     minecraftVersion: string
+
+    /**
+     * Java options.
+     * @since 1.1.0
+     */
+    javaOptions?: JavaOptions
 
     /**
      * Server specific settings used for Discord Rich Presence.

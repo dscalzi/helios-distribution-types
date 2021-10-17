@@ -1,6 +1,6 @@
 {
   "name": "helios-distribution-types",
-  "version": "1.1.0",
+  "version": "1.2.0-alpha.1",
   "description": "Type interfaces for Helios Launcher's distribution specification.",
   "main": "build/index.js",
   "types": "build/index.d.ts",
