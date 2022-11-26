@@ -31,6 +31,14 @@ export interface Module {
     type: Type
 
     /**
+     * Whether or not this module should be included on the classpath.
+     * Only applicable to modules of type Library.
+     * 
+     * Defaults to true when not present.
+     */
+    classpath?: boolean
+
+    /**
      * Defines whether or not the module is required. If omitted, then the module will be required.
      */
     required?: Required
