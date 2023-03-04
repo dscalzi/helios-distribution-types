@@ -21,7 +21,30 @@ export enum JdkDistribution {
 }
 
 /**
- * Java Version. The format is version dependent.
+ * Properties used to specify version information.
+ * @since 1.2.0
+ */
+export interface JavaVersionProps {
+    /**
+     * Preferred JDK distribution.
+     * If omitted, the client will decide (decision may be platform-specific).
+     * @since 1.2.0
+     */
+    distribution?: JdkDistribution
+
+    /**
+     * A semver range of supported JDK versions.
+     * If omitted, the client will decide based on the game version.
+     * @see https://github.com/npm/node-semver#ranges
+     * @since 1.2.0
+     */
+    supported?: string
+}
+
+/**
+ * Java validation rules for a specific platform.
+ * 
+ * Java version syntax is platform dependent.
  * 
  * JDK 8 and prior
  * 1.{major}.{minor}_{revision}-b{build}
@@ -31,156 +54,66 @@ export enum JdkDistribution {
  * {major}.{minor}.{revision}+{build}
  * Ex. 11.0.12+7
  * 
+ * For processing, all versions will be translated into a
+ * semver compliant string. JDK 9+ is already semver. For
+ * versions 8 and below, 1.{major}.{minor}_{revision}-b{build}
+ * will be translated to {major}.{minor}.{revision}+{build}.
+ * 
  * @since 1.2.0
  */
-export interface JavaVersion {
-    /**
-     * Major version component.
-     * @since 1.2.0
-     */
-    major: number
-    /**
-     * Minor version component.
-     * On JDK 8 and below, this is always 0.
-     * @since 1.2.0
-     */
-    minor: number
-    /**
-     * Revision version component.
-     * On JDK 8 and below, this is known as update number.
-     * @since 1.2.0
-     */
-    revision: number
-    /**
-     * Build number version component.
-     * @since 1.2.0
-     */
-    build: number
-}
-
-/**
- * Conditions used to validate a major Java version.
- * @since 1.2.0
- */
-export interface JavaVersionMatrix {
-    /**
-     * The absolute minimum version allowed for this major version.
-     * Formatting must match that of the corresponding major version.
-     * If omitted, there will be no lower limit for this major version.
-     * @since 1.2.0
-     */
-    minimum?: string
-    /**
-     * The absolute maximum version allowed for this major version.
-     * Formatting must match that of the corresponding major version.
-     * If omitted, there will be no upper limit for this major version.
-     * @since 1.2.0
-     */
-    maximum?: string
-    /**
-     * A list of blacklisted versions.
-     * Formatting must match that of the corresponding major version.
-     * If omitted, no versions of this major version will be blacklisted.
-     * @since 1.2.0
-     */
-    blacklist?: string[]
-}
-
-/**
- * Java validation rules for a specific platform.
- * @since 1.2.0
- */
-export interface JavaPlatformMatrix {
+export interface JavaPlatformOptions extends JavaVersionProps {
     /**
      * The platform that this validation matrix applies to.
      * @since 1.2.0
      */
-    platform: Platform | 'all'
+    platform: Platform
     /**
      * The architecture that this validation matrix applies to.
+     * If omitted, applies to all architectures.
      * @since 1.2.0
      */
-    architecture: Architecture | 'all'
-
-    /**
-     * Preferred JDK distribution.
-     * If omitted, the client will decide (decision may be platform-specific).
-     * @since 1.2.0
-     */
-    distribution?: JdkDistribution
-
-    /**
-     * A list of supported major versions.
-     * If omitted, the client will decide based on the game version.
-     * @since 1.2.0
-     */
-    supported?: number[]
-
-    /**
-     * A matrix used to provide validation rules by major version.
-     * If omitted, no rules will be applied.
-     * @since 1.2.0
-     */
-    versionMatrices?: {
-        /**
-         * Validation rules for the specific major version.
-         * If the list of supported major versions is provided, this major
-         * version must be present in that list.
-         * If not provided, this major version must be recognized as a supported
-         * version by the client.
-         * Otherwise, this value will be ignored.
-         * @since 1.2.0
-         */
-        [major: string]: JavaVersionMatrix
-    }
-
-    /**
-     * RAM settings.
-     * @since 1.2.0
-     */
-    ram: {
-        /**
-         * The recommended amount of RAM.
-         * @since 1.2.0
-         */
-        recommended: number
-        /**
-         * The absolute minimum amount of RAM.
-         * @since 1.2.0
-         */
-        minimum: number
-    }
+    architecture?: Architecture
 }
 
 /**
  * Java options.
  * @since 1.2.0
  */
-export interface JavaOptions {
+export interface JavaOptions extends JavaVersionProps {
 
     /**
-     * Java validation rules for this server configuration.
+     * Platform-specific java rules for this server configuration.
      * Validation rules will be delegated to the client for
      * any undefined properties. Java validation can be configured
      * for specific platforms and architectures. The most specific
-     * ruleset will be applied. For example, if a matrix for platform
-     * and architecture 'all' is specified, it will be used as the
-     * base set of rules. If a matrix is present for the current os,
-     * its validation rules will take precedence over the 'all'
-     * configuration.
+     * ruleset will be applied.
      * 
      * Maxtrix Precedence (Highest - Lowest)
-     * - Current platform (ex. win32 x64)
-     * - 'all' architecture (ex. win32 all)
-     * - 'all' platform (ex. all all)
+     * - Current platform, current architecture (ex. win32 x64)
+     * - Current platform, any architecture (ex. win32)
+     * - Java Options base properties (defined on this object)
      * - Client logic (default logic in the client)
-     * 
-     * A specific architecture with a wildcard platform is not supported.
-     * Any matrices provided with this format will be ignored.
-     * Ex. (all x64) is not valid.
      * 
      * @since 1.2.0
      */
-    validationMatrices?: JavaPlatformMatrix[]
+    platformOptions?: JavaPlatformOptions[]
+
+    /**
+     * RAM settings.
+     * If omitted, legacy client logic will be used to determine these values.
+     * @since 1.2.0
+     */
+    ram?: {
+        /**
+         * The recommended amount of RAM in megabytes. Must be an interval of 512.
+         * @since 1.2.0
+         */
+        recommended: number
+        /**
+         * The absolute minimum amount of RAM in megabytes. Must be an interval of 512.
+         * @since 1.2.0
+         */
+        minimum: number
+    }
 
 }
