@@ -34,6 +34,22 @@ export interface JavaVersionProps {
 
     /**
      * A semver range of supported JDK versions.
+     * 
+     * Java version syntax is platform dependent.
+     * 
+     * JDK 8 and prior
+     * 1.{major}.{minor}_{revision}-b{build}
+     * Ex. 1.8.0_152-b16
+     * 
+     * JDK 9+
+     * {major}.{minor}.{revision}+{build}
+     * Ex. 11.0.12+7
+     * 
+     * For processing, all versions will be translated into a
+     * semver compliant string. JDK 9+ is already semver. For
+     * versions 8 and below, 1.{major}.{minor}_{revision}-b{build}
+     * will be translated to {major}.{minor}.{revision}+{build}.
+     * 
      * If omitted, the client will decide based on the game version.
      * @see https://github.com/npm/node-semver#ranges
      * @since 1.2.0
@@ -43,21 +59,6 @@ export interface JavaVersionProps {
 
 /**
  * Java validation rules for a specific platform.
- * 
- * Java version syntax is platform dependent.
- * 
- * JDK 8 and prior
- * 1.{major}.{minor}_{revision}-b{build}
- * Ex. 1.8.0_152-b16
- * 
- * JDK 9+
- * {major}.{minor}.{revision}+{build}
- * Ex. 11.0.12+7
- * 
- * For processing, all versions will be translated into a
- * semver compliant string. JDK 9+ is already semver. For
- * versions 8 and below, 1.{major}.{minor}_{revision}-b{build}
- * will be translated to {major}.{minor}.{revision}+{build}.
  * 
  * @since 1.2.0
  */
