@@ -38,17 +38,17 @@ export interface JavaVersionProps {
      * Java version syntax is platform dependent.
      * 
      * JDK 8 and prior
-     * 1.{major}.{minor}_{revision}-b{build}
+     * 1.{major}.{minor}_{patch}-b{build}
      * Ex. 1.8.0_152-b16
      * 
      * JDK 9+
-     * {major}.{minor}.{revision}+{build}
+     * {major}.{minor}.{patch}+{build}
      * Ex. 11.0.12+7
      * 
      * For processing, all versions will be translated into a
      * semver compliant string. JDK 9+ is already semver. For
-     * versions 8 and below, 1.{major}.{minor}_{revision}-b{build}
-     * will be translated to {major}.{minor}.{revision}+{build}.
+     * versions 8 and below, 1.{major}.{minor}_{patch}-b{build}
+     * will be translated to {major}.{minor}.{patch}+{build}.
      * 
      * If omitted, the client will decide based on the game version.
      * @see https://github.com/npm/node-semver#ranges
