@@ -79,6 +79,7 @@ export interface JavaVersionProps {
      * 
      * Given a wider support range, it becomes necessary to specify which
      * major version in the range is the suggested.
+     * @since 1.2.0
      */
     suggestedMajor?: number
 }
