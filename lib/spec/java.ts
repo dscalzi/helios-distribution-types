@@ -26,7 +26,8 @@ export enum JdkDistribution {
  */
 export interface JavaVersionProps {
     /**
-     * Preferred JDK distribution.
+     * Preferred JDK distribution to download if no applicable installation could
+     * be found.
      * If omitted, the client will decide (decision may be platform-specific).
      * @since 1.2.0
      */
@@ -50,11 +51,36 @@ export interface JavaVersionProps {
      * versions 8 and below, 1.{major}.{minor}_{patch}-b{build}
      * will be translated to {major}.{minor}.{patch}+{build}.
      * 
+     * If specified, you must also specify suggestedMajor.
+     * 
      * If omitted, the client will decide based on the game version.
      * @see https://github.com/npm/node-semver#ranges
      * @since 1.2.0
      */
     supported?: string
+
+    /**
+     * The suggested major Java version. The suggested major
+     * should comply with the version range specified by supported,
+     * if defined. This will be used in messages displayed to the
+     * end user, and to automatically fetch a Java version.
+     * 
+     * NOTE If supported is specified, suggestedMajor must be set.
+     * The launcher's default value may not comply with your custom
+     * major supported range.
+     * 
+     * Common use case:
+     * supported: >=17.x
+     * suggestedMajor: 17
+     * 
+     * More involved:
+     * supported: >=16 <20
+     * suggestedMajor: 17
+     * 
+     * Given a wider support range, it becomes necessary to specify which
+     * major version in the range is the suggested.
+     */
+    suggestedMajor?: number
 }
 
 /**
