@@ -35,6 +35,8 @@ export interface Module {
      * Only applicable to modules of type Library.
      * 
      * Defaults to true when not present.
+     * 
+     * @since 1.1.0
      */
     classpath?: boolean
 

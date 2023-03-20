@@ -1,6 +1,6 @@
 {
   "name": "helios-distribution-types",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Type interfaces for Helios Launcher's distribution specification.",
   "main": "build/index.js",
   "types": "build/index.d.ts",
@@ -9,6 +9,7 @@
     "tsc": "tsc",
     "build": "npm run clean && npm run tsc",
     "lint": "eslint . --ext .js,.ts",
+    "bl": "npm run build && npm link",
     "prepack": "npm run build"
   },
   "repository": {
@@ -22,11 +23,11 @@
   },
   "homepage": "https://github.com/dscalzi/helios-distribution-types#readme",
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^5.54.0",
-    "@typescript-eslint/parser": "^5.54.0",
-    "eslint": "^8.35.0",
-    "rimraf": "^4.3.0",
-    "typescript": "^4.9.5"
+    "@typescript-eslint/eslint-plugin": "^5.55.0",
+    "@typescript-eslint/parser": "^5.55.0",
+    "eslint": "^8.36.0",
+    "rimraf": "^4.4.0",
+    "typescript": "^5.0.2"
   },
   "files": [
     "build"
